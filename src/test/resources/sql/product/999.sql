@@ -1,0 +1,1 @@
+insert into public.product (id, external_id, title, created, updated) values (999, 'external_id', '999', current_timestamp, current_timestamp);
