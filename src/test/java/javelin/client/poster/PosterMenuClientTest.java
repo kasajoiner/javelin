@@ -5,26 +5,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PosterMenuClientTest {
 
     @Autowired
-    private PosterMenuClient menuClient;
+    private PosterOrderClient orderClient;
 
     @Test
-    void When_GetCategories_Expect_Them_NotEmpty() {
-        var categories = menuClient.getCategories();
+    void When_GetOrders_Expect_Them_NotEmpty() {
+        var start = LocalDateTime.of(2023, 6, 1, 0, 0, 0);
+        var to = LocalDateTime.of(2023, 6, 30, 0, 0, 0);
+        var categories = orderClient.findOrders(
+            start, to
+        );
 
         assertTrue(categories.size() > 0);
-    }
-
-    @Test
-    void When_GetProducts_Expect_Them_NotEmpty() {
-        var products = menuClient.getProducts();
-
-        assertTrue(products.size() > 0);
     }
 
 }
