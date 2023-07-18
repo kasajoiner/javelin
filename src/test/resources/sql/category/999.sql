@@ -1,1 +1,0 @@
-insert into public.category (id, external_id, title) values (999, 'external_id', '999');

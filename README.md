@@ -1,1 +1,1 @@
-# javelin
+docker run --name javelin-postgresql -p 5455:5432 -e POSTGRES_USER=javelin -e POSTGRES_PASSWORD=javelin -e POSTGRES_DB=javelin -d postgres:14.3
