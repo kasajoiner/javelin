@@ -1,6 +1,7 @@
 package javelin.client.poster;
 
 import javelin.client.OrderClient;
+import javelin.dto.CreateOrderRequest;
 import javelin.dto.IncomingOrder;
 import javelin.dto.OrderResponse;
 import javelin.dto.OrdersResponse;
@@ -21,21 +22,36 @@ public class PosterOrderClient implements OrderClient {
     private static final DateTimeFormatter PARAM_FORMATTER
         = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-
     private final RestTemplate restTemplate;
 
-    @Value("${order.url}")
+    @Value("${order.get.url}")
     private String orderUrl;
-    @Value("${orders.url}")
+    @Value("${order.list.url}")
     private String ordersUrl;
+    @Value("${order.create.url}")
+    private String createOrderUrl;
     @Value("${menu.token}")
     private String token;
 
+    @Override
+    public IncomingOrder create(CreateOrderRequest r) {
+        var url = tokenize(createOrderUrl);
+
+        var rsp = restTemplate.postForEntity(
+            url.toUriString(),
+            r,
+            OrderResponse.class
+        );
+
+        if (rsp.getStatusCode().is2xxSuccessful() && rsp.getBody() != null) {
+            return rsp.getBody().incomingOrder();
+        }
+        return null;
+    }
 
     @Override
     public List<IncomingOrder> findOrders(LocalDateTime from, LocalDateTime to) {
         var url = tokenize(ordersUrl)
-            .queryParam("incoming_order_id", PARAM_FORMATTER.format(from))
             .queryParam("date_from", PARAM_FORMATTER.format(from))
             .queryParam("date_to", PARAM_FORMATTER.format(to));
         var r = restTemplate.getForEntity(url.toUriString(), OrdersResponse.class);
@@ -47,7 +63,7 @@ public class PosterOrderClient implements OrderClient {
 
     @Override
     public Optional<IncomingOrder> findOrderById(Long id) {
-        var url = tokenize(ordersUrl)
+        var url = tokenize(orderUrl)
             .queryParam("incoming_order_id", id);
         var r = restTemplate.getForEntity(url.toUriString(), OrderResponse.class);
         if (r.getStatusCode().is2xxSuccessful() && r.getBody() != null) {

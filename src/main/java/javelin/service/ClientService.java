@@ -1,18 +1,12 @@
 package javelin.service;
 
-import javelin.client.OrderClient;
 import javelin.entity.Client;
-import javelin.model.ClientImportRequest;
 import javelin.model.ClientRequest;
-import javelin.model.CategoryView;
-import javelin.model.ProductView;
 import javelin.repo.ClientRepository;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +15,6 @@ import java.util.Optional;
 public class ClientService {
 
     private final ClientRepository rep;
-    private final OrderClient orderClient;
 
     public List<Client> getAll() {
         return rep.findAll();
@@ -46,6 +39,10 @@ public class ClientService {
     @Transactional
     public void deleteById(Long id) {
         rep.findById(id).ifPresent(rep::delete);
+    }
+
+    public Optional<Client> findByPhone(String phone) {
+        return rep.findByPhone(phone);
     }
 
 //    @Transactional

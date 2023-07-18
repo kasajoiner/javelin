@@ -1,5 +1,7 @@
 CREATE TABLE public.orders (
    id BIGINT PRIMARY KEY,
+   client_id BIGINT NOT NULL,
+   price BIGINT NOT NULL,
    address VARCHAR(255),
    status INT,
    created TIMESTAMP,

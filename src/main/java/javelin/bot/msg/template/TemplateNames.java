@@ -11,6 +11,11 @@ public class TemplateNames {
     private static final String STATUS = "status";
 
     private static final String NOTIFICATION = "notification/";
-    private static final String BALANCE = NOTIFICATION + "balance/";
+    private static final String ORDER = "order/";
+    public static final String ORDER_NEW = ORDER + "new";
+    public static final String ORDER_ACCEPT = ORDER + "accepted";
+    public static final String ORDER_COOKED = ORDER + "cooked";
+    public static final String ORDER_DELIVERING = ORDER + "delivering";
+    public static final String ORDER_DONE = ORDER + "done";
 
 }

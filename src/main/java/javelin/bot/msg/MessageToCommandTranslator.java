@@ -26,10 +26,6 @@ public class MessageToCommandTranslator implements CommandTranslator {
         LangUtils.SUPPORTED.forEach(l -> {
             msg2cmd.put(t.processTemplate(ButtonNames.CONTACT), RegistrationMessageHandler.REG);
             msg2cmd.put(t.processTemplate(ButtonNames.HELP), HelpMessageHandler.HELP);
-            msg2cmd.put(
-                t.processTemplate(ButtonNames.SETTINGS),
-                SettingsCommonMessageHandler.SETTINGS
-            );
             }
         );
     }
