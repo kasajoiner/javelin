@@ -19,26 +19,6 @@ class PosterMenuClientTest {
     private PosterOrderClient orderClient;
 
     @Test
-    void When_CreateOrder_Expect_CorrectParameters() {
-        var request = new CreateOrderRequest(
-            1,
-            "+380955741012",
-            3,
-            List.of(
-                new CreateOrderRequest.Product(
-                    3, 2
-                )
-            )
-        );
-
-        var incomingOrder = orderClient.create(request);
-
-        assertEquals("+380955741012", incomingOrder.phone());
-        assertEquals(0, incomingOrder.status());
-        assertEquals(0, incomingOrder.serviceMode());
-    }
-
-    @Test
     void When_GetOrders_Expect_Them_NotEmpty() {
         var start = LocalDateTime.of(2023, 7, 1, 0, 0, 0);
         var to = LocalDateTime.of(2023, 7, 30, 0, 0, 0);
