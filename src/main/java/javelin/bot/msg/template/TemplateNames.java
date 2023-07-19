@@ -5,6 +5,7 @@ public class TemplateNames {
     private TemplateNames() {}
 
     public static final String HELP = "help";
+    public static final String OPTION = "option";
     public static final String WELCOME = "welcome";
     public static final String REGISTER = "register";
 

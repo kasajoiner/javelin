@@ -11,6 +11,7 @@ public class ButtonNames {
     public static final String SETTINGS = BUTTON_DIR + "settings";
     public static final String CLOSE = BUTTON_DIR + "close";
     public static final String HELP = BUTTON_DIR + "help";
+    public static final String DINE_IN = BUTTON_DIR + "dinein";
     public static final String ORDER = BUTTON_DIR + "order";
     public static final String CONTACT = BUTTON_DIR + "contact";
     public static final String YES = BUTTON_DIR + "yes";

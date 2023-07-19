@@ -38,9 +38,6 @@ jobs:
 
       - name: Replace values in application.properties
         run: |
-            sed -i 's#spring.datasource.url=.*#spring.datasource.url='${{ secrets.DB_HOST }}'#' src/main/resources/application.properties
-            sed -i 's#spring.datasource.username=.*#spring.datasource.username='${{ secrets.DB_USER }}'#' src/main/resources/application.properties
-            sed -i 's#spring.datasource.password=.*#spring.datasource.password='${{ secrets.DB_PASS }}'#' src/main/resources/application.properties
             sed -i 's#bot.token=.*#bot.token='${{ secrets.BOT_TOKEN }}'#' src/main/resources/application.properties
             sed -i 's#menu.token=.*#menu.token='${{ secrets.MENU_TOKEN }}'#' src/main/resources/application.properties
 

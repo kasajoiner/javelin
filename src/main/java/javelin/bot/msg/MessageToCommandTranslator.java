@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import javelin.bot.cmd.CommandTranslator;
 import javelin.bot.msg.handler.common.HelpMessageHandler;
-import javelin.bot.msg.handler.common.SettingsCommonMessageHandler;
+import javelin.bot.msg.handler.menu.OrderOptionMenuHandler;
 import javelin.bot.msg.template.ButtonNames;
 import javelin.bot.msg.template.MessageTemplateContext;
 
@@ -26,6 +26,8 @@ public class MessageToCommandTranslator implements CommandTranslator {
         LangUtils.SUPPORTED.forEach(l -> {
             msg2cmd.put(t.processTemplate(ButtonNames.CONTACT), RegistrationMessageHandler.REG);
             msg2cmd.put(t.processTemplate(ButtonNames.HELP), HelpMessageHandler.HELP);
+            msg2cmd.put(t.processTemplate(ButtonNames.DINE_IN), OrderOptionMenuHandler.OPTION);
+            msg2cmd.put(t.processTemplate(ButtonNames.ORDER), OrderOptionMenuHandler.OPTION);
             }
         );
     }

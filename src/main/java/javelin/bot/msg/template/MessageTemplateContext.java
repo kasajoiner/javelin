@@ -1,5 +1,6 @@
 package javelin.bot.msg.template;
 
+import com.vdurmont.emoji.EmojiParser;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -29,6 +30,10 @@ public class MessageTemplateContext {
 
     public String processTemplate(String dir) {
         return processTemplate(dir, Collections.emptyMap());
+    }
+
+    public String processEmojiTemplate(String dir) {
+        return EmojiParser.parseToUnicode(processTemplate(dir, Collections.emptyMap()));
     }
 
     public String processTemplate(String dir, Map<String, Object> params) {

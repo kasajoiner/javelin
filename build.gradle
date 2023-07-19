@@ -38,6 +38,7 @@ dependencies {
         'org.springframework.boot:spring-boot-starter-data-jpa',
         'org.springframework.boot:spring-boot-starter-validation',
         "org.springframework.cloud:spring-cloud-starter-sleuth",
+        'com.vdurmont:emoji-java:5.1.1',
         'ch.qos.logback:logback-access',
         'io.micrometer:micrometer-registry-prometheus',
         'org.flywaydb:flyway-core',

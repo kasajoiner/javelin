@@ -9,17 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import javax.annotation.PostConstruct;
-import java.io.Serializable;
 
 @Slf4j
 @Component
@@ -37,7 +33,7 @@ public class BotRouter extends TelegramLongPollingBot {
 
     @PostConstruct
     public void initBots() throws TelegramApiException {
-        TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+        var botsApi = new TelegramBotsApi(DefaultBotSession.class);
 
         try {
             botsApi.registerBot(this);
@@ -50,7 +46,7 @@ public class BotRouter extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
             try {
-                BotApiMethod<Message> msg = msgManager.manage(update.getMessage());
+                var msg = msgManager.manage(update.getMessage());
                 if (msg != null) {
                     execute(msg);
                 }
@@ -68,8 +64,8 @@ public class BotRouter extends TelegramLongPollingBot {
                 }
             }
         } else if (update.hasCallbackQuery()){
-            CallbackQuery callbackQuery = update.getCallbackQuery();
-            BotApiMethod<Serializable> m = callbackManager.manageCallback(
+            var callbackQuery = update.getCallbackQuery();
+            var m = callbackManager.manageCallback(
                 callbackQuery.getMessage(),
                 callbackQuery.getData()
             );

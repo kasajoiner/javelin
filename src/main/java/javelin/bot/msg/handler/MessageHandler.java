@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface MessageHandler {
 
-    BotApiMethod<Message> handle(ChatCommand cc);
+    BotApiMethod<?> handle(ChatCommand cc);
 
     String trigger();
 

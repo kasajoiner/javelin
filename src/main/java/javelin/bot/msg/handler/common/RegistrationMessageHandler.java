@@ -2,8 +2,7 @@ package javelin.bot.msg.handler.common;
 
 import javelin.bot.cmd.ChatCommand;
 import javelin.bot.msg.SendMessageBuilder;
-import javelin.bot.msg.button.InlineMarkupBuilder;
-import javelin.bot.msg.button.MenuKeyboardBuilder;
+import javelin.bot.msg.button.ReplyMarkupBuilder;
 import javelin.bot.msg.handler.MessageHandler;
 import javelin.bot.msg.template.ButtonNames;
 import javelin.bot.msg.template.MessageTemplateContext;
@@ -11,10 +10,11 @@ import javelin.bot.msg.template.TemplateNames;
 import javelin.model.ClientRequest;
 import javelin.service.ClientService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -25,16 +25,17 @@ public class RegistrationMessageHandler implements MessageHandler {
     private final MessageTemplateContext templateContext;
     private final ClientService clientService;
 
-    @Value("${web.url}")
-    private String webUrl;
-
     @Override
     public BotApiMethod<Message> handle(ChatCommand cc) {
         var client = clientService.save(new ClientRequest(cc.getChatId(), cc.getKey()));
-        var text = templateContext.processTemplate(TemplateNames.REGISTER);
+        var text = templateContext.processEmojiTemplate(TemplateNames.REGISTER);
+        var dineInBtn = templateContext.processTemplate(ButtonNames.DINE_IN);
         var orderBtn = templateContext.processTemplate(ButtonNames.ORDER);
+        var keyboard = new ReplyMarkupBuilder()
+            .addButtons(List.of(dineInBtn, orderBtn))
+            .build();
         return new SendMessageBuilder(cc.getChatId(), text)
-            .replyMarkup(new InlineMarkupBuilder().addButton(orderBtn, webUrl).build())
+            .replyMarkup(keyboard)
             .build();
     }
 

@@ -35,7 +35,7 @@ public class MessageHandlerManager {
         this.txt2Cmd = txt2Cmd;
     }
 
-    public BotApiMethod<Message> manage(Message message) {
+    public BotApiMethod<?> manage(Message message) {
         if (message.getContact() != null) {
             message.setText(
                 RegistrationMessageHandler.REG + " " + message.getContact().getPhoneNumber()
