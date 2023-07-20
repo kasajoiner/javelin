@@ -9,6 +9,7 @@ import javelin.repo.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -50,6 +51,7 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    @Transactional
     public Order update(Order o) {
         return orderRepository.save(o);
     }

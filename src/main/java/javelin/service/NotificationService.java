@@ -24,6 +24,7 @@ public class NotificationService {
             case NEW -> notifyNew(c, o);
             case ACCEPTED -> notifyAccepted(c, o);
             case COOKED -> notifyCooked(c, o);
+            case DONE -> notifyCooked(c, o);
             case DELIVERING -> notifyDelivering(c, o);
         }
     }

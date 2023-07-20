@@ -9,14 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class CheckOrderManager {
-
-    private static final Set<Integer> ALLOWED_SERVICES = Set.of(2, 3);
 
     private final OrderClient orderClient;
     private final StatusClient statusClient;
@@ -31,28 +29,21 @@ public class CheckOrderManager {
             var shiftStart = timeService.shiftStart();
             var shiftEnd = timeService.shiftEnd();
 
-            var incomingOrders = orderClient.findOrders(shiftStart, shiftEnd);
-            log.info(
-                "found {} order for today {} - {}",
-                incomingOrders.size(),
-                shiftStart,
-                shiftEnd
-            );
-            incomingOrders
+            var actualOrders = orderClient.findOrders(shiftStart, shiftEnd)
                 .stream()
-                .filter(io -> ALLOWED_SERVICES.contains(io.serviceMode()))
-                .forEach(io -> {
-                    orderService.findById(io.id())
-                        .ifPresentOrElse(
-                            o -> handleExisting(io, o),
-                            () -> handleNew(io)
-                        );
-                });
+                .map(io -> orderService.findById(io.id())
+                    .filter(Order::isNotFinished)
+                    .map(o -> handleExisting(io, o))
+                    .orElseGet(() -> handleNew(io)))
+                .toList();
+
+            log.info("actual orders {}", actualOrders);
         }
     }
 
-    private void handleExisting(IncomingOrder io, Order o) {
-        var actualStatus = statusClient.getStatus(io.transactionId())
+    private Order handleExisting(IncomingOrder io, Order o) {
+        var actualStatus = Optional.ofNullable(io.transactionId())
+            .flatMap(statusClient::getStatus)
             .orElseGet(() -> Order.Status.of(io.status()));
         if (o.getStatus() != actualStatus) {
             log.info("order {} status update {}", o, actualStatus);
@@ -61,20 +52,25 @@ public class CheckOrderManager {
             synced.setStatus(actualStatus);
             var updated = orderService.update(synced);
             notificationService.notify(c, updated);
+            return updated;
         }
+        return o;
     }
 
-    private void handleNew(IncomingOrder io) {
-        clientService.findByPhone(io.phone())
-            .ifPresentOrElse(
-                c -> createNewOrder(io, c),
-                () -> log.info("order {} is not made via app", io)
-            );
+    private Order handleNew(IncomingOrder io) {
+        return clientService.findByPhone(io.phone())
+            .map(c -> createNewOrder(io, c))
+            .orElseGet(() -> {
+                log.info("order {} is not made via app", io);
+                var c = clientService.findById(-1L).orElseThrow();
+                return createNewOrder(io, c);
+            });
     }
 
-    private void createNewOrder(IncomingOrder io, Client c) {
+    private Order createNewOrder(IncomingOrder io, Client c) {
         var saved = orderService.sync(io, c);
         log.info("new order {}", saved);
         notificationService.notify(c, saved);
+        return saved;
     }
 }
