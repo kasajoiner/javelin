@@ -22,7 +22,7 @@ class PosterStatusClientTest {
         var status = client.getStatus(11L);
 
         assertTrue(status.isPresent());
-        assertEquals(Order.Status.DONE, status.get());
+        assertEquals(Order.Status.CLOSED, status.get());
     }
 
     @Test
