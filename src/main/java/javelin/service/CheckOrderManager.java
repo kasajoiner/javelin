@@ -32,9 +32,9 @@ public class CheckOrderManager {
             var actualOrders = orderClient.findOrders(shiftStart, shiftEnd)
                 .stream()
                 .map(io -> orderService.findById(io.id())
-                    .filter(Order::isNotFinished)
                     .map(o -> handleExisting(io, o))
                     .orElseGet(() -> handleNew(io)))
+                .filter(o -> !o.isFinished())
                 .toList();
 
             log.info("actual orders {}", actualOrders);
@@ -42,14 +42,17 @@ public class CheckOrderManager {
     }
 
     private Order handleExisting(IncomingOrder io, Order o) {
+        if (o.isFinished()) {
+            return o;
+        }
         var actualStatus = Optional.ofNullable(io.transactionId())
             .flatMap(statusClient::getStatus)
             .orElseGet(() -> Order.Status.of(io.status()));
         if (o.getStatus() != actualStatus) {
-            log.info("order {} status update {}", o, actualStatus);
             var c = clientService.findById(o.getClientId()).orElseThrow();
             var synced = orderService.sync(io, c);
             synced.setStatus(actualStatus);
+            log.info("order {} update", o);
             var updated = orderService.update(synced);
             notificationService.notify(c, updated);
             return updated;

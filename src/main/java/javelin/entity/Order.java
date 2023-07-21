@@ -30,8 +30,11 @@ public class Order {
     private LocalDateTime created;
     private LocalDateTime updated;
 
-    public boolean isNotFinished() {
-        return status != Status.OUT && status != Status.DONE;
+    public boolean isFinished() {
+        return status == Status.OUT
+            || status == Status.DONE
+            || status == Status.CANCELLED
+            || status == Status.DELETED;
     }
 
     @Getter
@@ -44,8 +47,8 @@ public class Order {
         COOKING(20),
         COOKED(30),
         DELIVERING(40),
-        DONE(50),
-        CLOSED(60),
+        DELIVERED(50),
+        DONE(60),
         DELETED(70);
         private final int id;
 
