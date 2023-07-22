@@ -26,6 +26,8 @@ public class Order {
     private String address;
     @Enumerated(EnumType.STRING)
     private Status status;
+    @Enumerated(EnumType.STRING)
+    private Service service;
     private Integer price;
     private LocalDateTime created;
     private LocalDateTime updated;
@@ -40,23 +42,19 @@ public class Order {
     @Getter
     @AllArgsConstructor
     public enum Status {
-        OUT(-1),
-        NEW(0),
-        ACCEPTED(1),
-        CANCELLED(7),
-        COOKING(20),
-        COOKED(30),
-        DELIVERING(40),
-        DELIVERED(50),
-        DONE(60),
-        DELETED(70);
-        private final int id;
+        OUT,
+        NEW,
+        ACCEPTED,
+        CANCELLED,
+        COOKING,
+        COOKED,
+        DELIVERING,
+        DELIVERED,
+        DONE,
+        DELETED
+    }
 
-        private static final Map<Integer, Status> ID_TO_ENTITY = Arrays.stream(values())
-            .collect(Collectors.toMap(Status::getId, Function.identity()));
-
-        public static Status of(int id) {
-            return ID_TO_ENTITY.get(id);
-        }
+    public enum Service {
+        DINEIN, DELIVERY
     }
 }

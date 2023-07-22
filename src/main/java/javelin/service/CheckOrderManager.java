@@ -2,7 +2,7 @@ package javelin.service;
 
 import javelin.client.OrderClient;
 import javelin.client.StatusClient;
-import javelin.dto.IncomingOrder;
+import javelin.dto.ClientOrder;
 import javelin.entity.Client;
 import javelin.entity.Order;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +31,9 @@ public class CheckOrderManager {
 
             var actualOrders = orderClient.findOrders(shiftStart, shiftEnd)
                 .stream()
-                .map(io -> orderService.findById(io.id())
-                    .map(o -> handleExisting(io, o))
-                    .orElseGet(() -> handleNew(io)))
+                .map(co -> orderService.findById(co.getId())
+                    .map(o -> handleExisting(co, o))
+                    .orElseGet(() -> handleNew(co)))
                 .filter(o -> !o.isFinished())
                 .toList();
 
@@ -41,16 +41,16 @@ public class CheckOrderManager {
         }
     }
 
-    private Order handleExisting(IncomingOrder io, Order o) {
+    private Order handleExisting(ClientOrder co, Order o) {
         if (o.isFinished()) {
             return o;
         }
-        var actualStatus = Optional.ofNullable(io.transactionId())
+        var actualStatus = Optional.ofNullable(co.getTransactionId())
             .flatMap(statusClient::getStatus)
-            .orElseGet(() -> Order.Status.of(io.status()));
+            .orElseGet(co::getStatus);
         if (o.getStatus() != actualStatus) {
             var c = clientService.findById(o.getClientId()).orElseThrow();
-            var synced = orderService.sync(io, c);
+            var synced = orderService.sync(co, c);
             synced.setStatus(actualStatus);
             log.info("order {} update", o);
             var updated = orderService.update(synced);
@@ -60,18 +60,18 @@ public class CheckOrderManager {
         return o;
     }
 
-    private Order handleNew(IncomingOrder io) {
-        return clientService.findByPhone(io.phone())
-            .map(c -> createNewOrder(io, c))
+    private Order handleNew(ClientOrder co) {
+        return clientService.findByPhone(co.getPhone())
+            .map(c -> createNewOrder(co, c))
             .orElseGet(() -> {
-                log.info("order {} is not made via app", io);
+                log.info("order {} is not made via app", co);
                 var c = clientService.findById(-1L).orElseThrow();
-                return createNewOrder(io, c);
+                return createNewOrder(co, c);
             });
     }
 
-    private Order createNewOrder(IncomingOrder io, Client c) {
-        var saved = orderService.sync(io, c);
+    private Order createNewOrder(ClientOrder co, Client c) {
+        var saved = orderService.sync(co, c);
         log.info("new order {}", saved);
         notificationService.notify(c, saved);
         return saved;

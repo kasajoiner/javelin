@@ -1,7 +1,7 @@
 package javelin.client.poster;
 
 import javelin.client.StatusClient;
-import javelin.dto.StatusResponse;
+import javelin.dto.poster.StatusResponse;
 import javelin.entity.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,11 +9,22 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class PosterStatusClient implements StatusClient {
+
+    private static final Map<Integer, Order.Status> STATUS_MAP = Map.of(
+        10, Order.Status.ACCEPTED,
+        20, Order.Status.COOKING,
+        30, Order.Status.COOKED,
+        40, Order.Status.DELIVERING,
+        50, Order.Status.DELIVERED,
+        60, Order.Status.DONE,
+        70, Order.Status.DELETED
+    );
 
     private final RestTemplate restTemplate;
     @Value("${order.status.url}")
@@ -33,7 +44,7 @@ public class PosterStatusClient implements StatusClient {
                 .transaction()
                 .stream()
                 .findFirst()
-                .map(t -> Order.Status.of(t.status()));
+                .map(t -> STATUS_MAP.get(t.status()));
         }
         return Optional.empty();
     }

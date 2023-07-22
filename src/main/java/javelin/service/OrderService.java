@@ -1,8 +1,9 @@
 package javelin.service;
 
 import javelin.client.OrderClient;
-import javelin.dto.IncomingOrder;
-import javelin.dto.WebhookRequest;
+import javelin.dto.ClientOrder;
+import javelin.dto.poster.IncomingOrder;
+import javelin.dto.poster.WebhookRequest;
 import javelin.entity.Client;
 import javelin.entity.Order;
 import javelin.repo.OrderRepository;
@@ -24,7 +25,7 @@ public class OrderService {
     public Optional<Order> handleEvent(WebhookRequest r) {
         var providerOrder = orderClient.findOrderById(r.objectId())
             .orElseThrow();
-        var client = clientService.findByPhone(providerOrder.phone())
+        var client = clientService.findByPhone(providerOrder.getPhone())
             .orElseThrow();
         var order = sync(providerOrder, client);
         notificationService.notify(client, order);
@@ -35,19 +36,20 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
-    public Order sync(IncomingOrder io, Client c) {
-        var order = orderRepository.findById(io.id())
+    public Order sync(ClientOrder co, Client c) {
+        var order = orderRepository.findById(co.getId())
             .orElseGet(() -> {
                 var o = new Order();
-                o.setId(io.id());
-                o.setCreated(io.createdAt());
+                o.setId(co.getId());
+                o.setCreated(co.getCreated());
                 return o;
             });
         order.setClientId(c.getId());
-        order.setPrice(io.countPrice());
-        order.setUpdated(io.updatedAt());
-        order.setAddress(io.address() == null ? "-" : io.address());
-        order.setStatus(Order.Status.of(io.status()));
+        order.setPrice(co.getPrice());
+        order.setUpdated(co.getUpdated());
+        order.setAddress(co.getAddress() == null ? "-" : co.getAddress());
+        order.setService(co.getService());
+        order.setStatus(co.getStatus());
         return orderRepository.save(order);
     }
 

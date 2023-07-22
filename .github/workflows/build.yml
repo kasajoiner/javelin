@@ -36,11 +36,6 @@ jobs:
           java-version: 17
           distribution: 'adopt'
 
-      - name: Replace values in application.properties
-        run: |
-            sed -i 's#bot.token=.*#bot.token='${{ secrets.BOT_TOKEN }}'#' src/main/resources/application.properties
-            sed -i 's#menu.token=.*#menu.token='${{ secrets.MENU_TOKEN }}'#' src/main/resources/application.properties
-
       - name: Build project
         run: ./gradlew build
       - name: Login to Amazon ECR

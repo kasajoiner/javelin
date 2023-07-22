@@ -1,7 +1,7 @@
 package javelin.controller;
 
-import javelin.dto.WebhookRequest;
-import javelin.dto.WebhookResponse;
+import javelin.dto.poster.WebhookRequest;
+import javelin.dto.poster.WebhookResponse;
 import javelin.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

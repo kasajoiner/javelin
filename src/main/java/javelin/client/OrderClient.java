@@ -1,7 +1,7 @@
 package javelin.client;
 
-import javelin.dto.CreateOrderRequest;
-import javelin.dto.IncomingOrder;
+import javelin.dto.ClientOrder;
+import javelin.dto.poster.IncomingOrder;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,9 +9,7 @@ import java.util.Optional;
 
 public interface OrderClient {
 
-    IncomingOrder create(CreateOrderRequest r);
+    List<ClientOrder> findOrders(LocalDateTime from, LocalDateTime to);
 
-    List<IncomingOrder> findOrders(LocalDateTime from, LocalDateTime to);
-
-    Optional<IncomingOrder> findOrderById(Long id);
+    Optional<ClientOrder> findOrderById(Long id);
 }
