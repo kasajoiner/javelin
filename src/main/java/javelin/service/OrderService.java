@@ -2,7 +2,6 @@ package javelin.service;
 
 import javelin.client.OrderClient;
 import javelin.dto.ClientOrder;
-import javelin.dto.poster.IncomingOrder;
 import javelin.dto.poster.WebhookRequest;
 import javelin.entity.Client;
 import javelin.entity.Order;
@@ -18,7 +17,7 @@ import java.util.Optional;
 public class OrderService {
 
     private final ClientService clientService;
-    private final NotificationService notificationService;
+    private final ClientNotificationService notificationService;
     private final OrderRepository orderRepository;
     private final OrderClient orderClient;
 

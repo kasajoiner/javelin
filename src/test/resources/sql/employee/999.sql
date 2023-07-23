@@ -1,0 +1,1 @@
+INSERT INTO public.employee (id, status, role) values (999, 'ENABLED', 'BOSS');

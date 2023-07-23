@@ -8,17 +8,22 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
-@Entity(name = "client")
 @Data
-public class Client {
+@Entity(name = "employee")
+public class Employee {
     @Id
     @EqualsAndHashCode.Include
     private Long id;
-    private String phone;
     @Enumerated(EnumType.STRING)
     private Status status = Status.ENABLED;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public enum Status {
         ENABLED, DISABLED
+    }
+
+    public enum Role {
+        BOSS, DEV, ADMIN
     }
 }

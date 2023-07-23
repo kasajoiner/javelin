@@ -1,0 +1,1 @@
+ALTER TABLE public.client add column status varchar(10) not null default 'ENABLED';

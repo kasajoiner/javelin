@@ -21,7 +21,7 @@ public class CheckOrderManager {
     private final OrderService orderService;
     private final ClientService clientService;
     private final TimeService timeService;
-    private final NotificationService notificationService;
+    private final ClientNotificationService notificationService;
 
     public void checkOnlineOrders() {
 
@@ -48,7 +48,7 @@ public class CheckOrderManager {
         var actualStatus = Optional.ofNullable(co.getTransactionId())
             .flatMap(statusClient::getStatus)
             .orElseGet(co::getStatus);
-        if (o.getStatus() != actualStatus) {
+        if (o.getStatus() != actualStatus && o.getStatus().ordinal() < co.getStatus().ordinal()) {
             var c = clientService.findById(o.getClientId()).orElseThrow();
             var synced = orderService.sync(co, c);
             synced.setStatus(actualStatus);

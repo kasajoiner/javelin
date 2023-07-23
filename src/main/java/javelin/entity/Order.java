@@ -42,15 +42,15 @@ public class Order {
     @Getter
     @AllArgsConstructor
     public enum Status {
-        OUT,
         NEW,
         ACCEPTED,
-        CANCELLED,
         COOKING,
         COOKED,
         DELIVERING,
         DELIVERED,
         DONE,
+        OUT,
+        CANCELLED,
         DELETED
     }
 

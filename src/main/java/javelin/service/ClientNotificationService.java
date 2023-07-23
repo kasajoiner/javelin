@@ -14,10 +14,11 @@ import java.util.Map;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class NotificationService {
+public class ClientNotificationService {
 
     private final BotRouter bot;
     private final MessageTemplateContext templateContext;
+    private final EmployeeNotificationService employeeNotificationService;
 
     public void notify(Client c, Order o) {
         switch (o.getStatus()) {
@@ -48,6 +49,7 @@ public class NotificationService {
             )
         );
         bot.sendNew(c.getId(), txt);
+        employeeNotificationService.notify(o);
     }
 
     public void notifyCooked(Client c, Order o) {
