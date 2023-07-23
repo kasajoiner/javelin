@@ -18,24 +18,26 @@ public class EmployeeNotificationService {
     private final BotRouter bot;
     private final MessageTemplateContext templateContext;
 
-    public void notify(Order o) {
+    public String notify(Order o) {
         if (o.getService() == Order.Service.DINEIN){
-            switch (o.getStatus()) {
+            return switch (o.getStatus()) {
                 case ACCEPTED -> notifyAccepted(o);
-            }
+                default -> null;
+            };
         }
+        return null;
     }
 
-    private void notifyAccepted(Order o) {
+    private String notifyAccepted(Order o) {
         var txt = templateContext.processTemplate(
             TemplateNames.ORDER_ADMIN_COOKED,
             Map.of(
                 "id", o.getId()
             )
         );
-        employeeService.findByRole(Employee.Role.ADMIN)
-                .forEach(employee -> {
-                    bot.sendNew(employee.getId(), txt);
-                });
+        employeeService
+            .findByRole(Employee.Role.ADMIN)
+            .forEach(employee -> bot.sendNew(employee.getId(), txt));
+        return txt;
     }
 }

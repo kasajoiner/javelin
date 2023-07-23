@@ -11,7 +11,7 @@ public class TemplateConfig {
     @Bean("localTemplateConfig")
     public freemarker.template.Configuration templateConfiguration() {
 
-        freemarker.template.Configuration cfg = new freemarker.template.Configuration(new Version(2, 3, 20));
+        freemarker.template.Configuration cfg = new freemarker.template.Configuration(new Version(2, 3, 32));
         cfg.setClassForTemplateLoading(this.getClass(), "/templates");
         cfg.setDefaultEncoding("UTF-8");
         cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
