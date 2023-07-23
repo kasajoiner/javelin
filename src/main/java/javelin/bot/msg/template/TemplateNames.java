@@ -13,7 +13,8 @@ public class TemplateNames {
 
     private static final String NOTIFICATION = "notification/";
     private static final String ORDER = "order/";
-    public static final String ORDER_ADMIN_COOKED = ORDER + "/admin/cooked";
+    public static final String ORDER_ADMIN_ACCEPTED = ORDER + "admin/cooked";
+    public static final String ORDER_ADMIN_COOKED = ORDER + "admin/done";
     public static final String ORDER_NEW = ORDER + "new";
     public static final String ORDER_ACCEPT = ORDER + "accepted";
     public static final String ORDER_COOKED = ORDER + "cooked";

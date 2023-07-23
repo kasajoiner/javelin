@@ -1,6 +1,5 @@
 package javelin.service;
 
-import javelin.bot.BotRouter;
 import javelin.bot.msg.template.MessageTemplateContext;
 import javelin.config.TemplateConfig;
 import javelin.entity.Order;
@@ -19,19 +18,17 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class EmployeeNotificationServiceTest {
 
-    private BotRouter botRouter;
     private EmployeeService employeeService;
     private EmployeeNotificationService target;
 
     @BeforeEach
     public void initTargetAndMocks() {
-        this.botRouter = Mockito.mock(BotRouter.class);
         this.employeeService = Mockito.mock(EmployeeService.class);
         var templateContext = new MessageTemplateContext(new TemplateConfig().templateConfiguration());
 
         this.target = new EmployeeNotificationService(
             employeeService,
-            botRouter,
+            new MessageQService(),
             templateContext
         );
     }
@@ -46,7 +43,7 @@ class EmployeeNotificationServiceTest {
             Arguments.of(Order.Service.DINEIN, Order.Status.ACCEPTED, acceptedMsg),
             Arguments.of(Order.Service.DELIVERY, Order.Status.ACCEPTED, null),
             Arguments.of(Order.Service.DINEIN, Order.Status.COOKING, null),
-            Arguments.of(Order.Service.DINEIN, Order.Status.COOKED, null),
+            Arguments.of(Order.Service.DINEIN, Order.Status.COOKED, "Замовлення 1 приготовлене. Чекаємо на клієнта."),
             Arguments.of(Order.Service.DINEIN, Order.Status.DELIVERING, null),
             Arguments.of(Order.Service.DINEIN, Order.Status.CANCELLED, null),
             Arguments.of(Order.Service.DINEIN, Order.Status.DONE, null),

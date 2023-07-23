@@ -1,6 +1,5 @@
 package javelin.service;
 
-import javelin.bot.BotRouter;
 import javelin.bot.msg.template.MessageTemplateContext;
 import javelin.config.TemplateConfig;
 import javelin.entity.Client;
@@ -20,17 +19,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 class ClientNotificationServiceTest {
 
-    private BotRouter botRouter;
     private ClientNotificationService target;
 
     @BeforeEach
     public void initTargetAndMocks() {
-        this.botRouter = Mockito.mock(BotRouter.class);
         var templateContext = new MessageTemplateContext(new TemplateConfig().templateConfiguration());
         var employeeNotificationService = Mockito.mock(EmployeeNotificationService.class);
 
         this.target = new ClientNotificationService(
-            botRouter,
+            new MessageQService(),
             templateContext,
             employeeNotificationService
         );
@@ -50,7 +47,7 @@ class ClientNotificationServiceTest {
             Зазвичай це займає 10-15хв.""";
 
         var cookedMsg = """
-            Замовлення приготовлено. Чекаю на курʼєра.""";
+            Твоє замовлення готово.""";
 
         var deliveringMsg = """
             Замовлення 1 передали курʼєру. Очікуйте на доставочку за адресою -.""";

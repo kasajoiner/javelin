@@ -1,6 +1,5 @@
 package javelin.service;
 
-import javelin.bot.BotRouter;
 import javelin.bot.msg.template.MessageTemplateContext;
 import javelin.bot.msg.template.TemplateNames;
 import javelin.entity.Client;
@@ -16,7 +15,7 @@ import java.util.Map;
 @Slf4j
 public class ClientNotificationService {
 
-    private final BotRouter bot;
+    private final MessageQService qService;
     private final MessageTemplateContext templateContext;
     private final EmployeeNotificationService employeeNotificationService;
 
@@ -38,7 +37,7 @@ public class ClientNotificationService {
                 "id", o.getId()
             )
         );
-        bot.sendNew(c.getId(), txt);
+        qService.push(c.getId(), txt);
         return txt;
     }
 
@@ -50,7 +49,7 @@ public class ClientNotificationService {
                 "id", o.getId()
             )
         );
-        bot.sendNew(c.getId(), txt);
+        qService.push(c.getId(), txt);
         employeeNotificationService.notify(o);
         return txt;
     }
@@ -63,7 +62,7 @@ public class ClientNotificationService {
                 "id", o.getId()
             )
         );
-        bot.sendNew(c.getId(), txt);
+        qService.push(c.getId(), txt);
         return txt;
     }
 
@@ -76,7 +75,7 @@ public class ClientNotificationService {
                 "addr", o.getAddress()
             )
         );
-        bot.sendNew(c.getId(), txt);
+        qService.push(c.getId(), txt);
         return txt;
     }
 

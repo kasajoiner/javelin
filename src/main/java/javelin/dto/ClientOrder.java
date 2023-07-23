@@ -22,4 +22,16 @@ public class ClientOrder {
     private Integer price;
     private LocalDateTime created;
     private LocalDateTime updated;
+    
+    public static ClientOrder from(Order o) {
+        return ClientOrder.builder()
+            .id(o.getId())
+            .status(o.getStatus())
+            .service(o.getService())
+            .address(o.getAddress())
+            .price(o.getPrice())
+            .created(o.getCreated())
+            .updated(o.getUpdated())
+            .build();
+    }
 }

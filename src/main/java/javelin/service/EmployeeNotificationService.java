@@ -1,6 +1,5 @@
 package javelin.service;
 
-import javelin.bot.BotRouter;
 import javelin.bot.msg.template.MessageTemplateContext;
 import javelin.bot.msg.template.TemplateNames;
 import javelin.entity.Employee;
@@ -15,13 +14,14 @@ import java.util.Map;
 public class EmployeeNotificationService {
 
     private final EmployeeService employeeService;
-    private final BotRouter bot;
+    private final MessageQService qService;
     private final MessageTemplateContext templateContext;
 
     public String notify(Order o) {
         if (o.getService() == Order.Service.DINEIN){
             return switch (o.getStatus()) {
                 case ACCEPTED -> notifyAccepted(o);
+                case COOKED -> notifyCooked(o);
                 default -> null;
             };
         }
@@ -30,6 +30,19 @@ public class EmployeeNotificationService {
 
     private String notifyAccepted(Order o) {
         var txt = templateContext.processTemplate(
+            TemplateNames.ORDER_ADMIN_ACCEPTED,
+            Map.of(
+                "id", o.getId()
+            )
+        );
+        employeeService
+            .findByRole(Employee.Role.ADMIN)
+            .forEach(employee -> qService.push(employee.getId(), txt));
+        return txt;
+    }
+
+    private String notifyCooked(Order o) {
+        var txt = templateContext.processTemplate(
             TemplateNames.ORDER_ADMIN_COOKED,
             Map.of(
                 "id", o.getId()
@@ -37,7 +50,7 @@ public class EmployeeNotificationService {
         );
         employeeService
             .findByRole(Employee.Role.ADMIN)
-            .forEach(employee -> bot.sendNew(employee.getId(), txt));
+            .forEach(employee -> qService.push(employee.getId(), txt));
         return txt;
     }
 }
