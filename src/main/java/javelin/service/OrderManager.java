@@ -60,7 +60,7 @@ public class OrderManager {
         var actualStatus = Optional.ofNullable(co.getTransactionId())
             .flatMap(statusClient::getStatus)
             .orElseGet(co::getStatus);
-        if (o.getStatus() != actualStatus && o.getStatus().ordinal() < co.getStatus().ordinal()) {
+        if (o.getStatus() != actualStatus && o.getStatus().ordinal() < actualStatus.ordinal()) {
             o.setStatus(actualStatus);
             return handleStatusChange(co, o);
         }
@@ -71,8 +71,10 @@ public class OrderManager {
     private Order handleStatusChange(ClientOrder co, Order o) {
         var c = clientService.findById(o.getClientId()).orElseThrow();
         var synced = orderService.sync(co, c);
-        log.info("order {} update", o);
-        notificationService.notify(c, synced);
+        synced.setStatus(o.getStatus());
+        var updated = orderService.update(synced);
+        log.info("order {} update", updated);
+        notificationService.notify(c, updated);
         return synced;
     }
 
