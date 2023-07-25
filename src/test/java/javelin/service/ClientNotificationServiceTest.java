@@ -35,28 +35,15 @@ class ClientNotificationServiceTest {
 
     static Stream<Arguments> clientOrdersStatuses() {
         var newMsg = """
-            Дякую за замовлення 1.
-            Очікуйте на підтвердження""";
+            Супер!
+            Замовлення створене, чекаю на підтвердження від адміна!""";
 
-        var acceptedMsg = """
-            Вже готую твоє замовлення 1.
-            Зазвичай це займає 10-15хв.""";
-
-        var cookingMsg = """
-            Вже готую твоє замовлення 1.
-            Зазвичай це займає 10-15хв.""";
-
-        var cookedMsg = """
-            Твоє замовлення готово.""";
-
-        var deliveringMsg = """
-            Замовлення 1 передали курʼєру. Очікуйте на доставочку за адресою -.""";
         return Stream.of(
             Arguments.of(Order.Status.NEW, newMsg),
-            Arguments.of(Order.Status.ACCEPTED, acceptedMsg),
-            Arguments.of(Order.Status.COOKING, cookingMsg),
-            Arguments.of(Order.Status.COOKED, cookedMsg),
-            Arguments.of(Order.Status.DELIVERING, deliveringMsg),
+            Arguments.of(Order.Status.ACCEPTED, "Єєс! Твоє замовлення прийнято і вже полетіло готуватись на кухню!"),
+            Arguments.of(Order.Status.COOKING, "Зазвичай наша кухня видає замовлення за 15-20 хв, чекаю на твоє, щоб швидше відправити його тобі."),
+            Arguments.of(Order.Status.COOKED, "Замовлення готово!"),
+            Arguments.of(Order.Status.DELIVERING, "Кур’єр вже везе твоє замовлення! Очікуй доставочку і смачного тобі, друг!"),
             Arguments.of(Order.Status.CANCELLED, null),
             Arguments.of(Order.Status.DONE, null),
             Arguments.of(Order.Status.OUT, null)
