@@ -1,6 +1,6 @@
 package javelin.service;
 
-import javelin.bot.msg.template.MessageTemplateContext;
+import javelin.bot.client.msg.template.MessageTemplateContext;
 import javelin.config.TemplateConfig;
 import javelin.entity.Client;
 import javelin.entity.Order;

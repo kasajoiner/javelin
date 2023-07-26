@@ -1,6 +1,6 @@
 package javelin.scheduler;
 
-import javelin.bot.BotRouter;
+import javelin.bot.client.BotRouter;
 import javelin.service.MessageQService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;

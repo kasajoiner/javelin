@@ -1,0 +1,27 @@
+package javelin.bot.client.msg.handler.menu;
+
+import javelin.bot.client.cmd.ChatCommand;
+import javelin.bot.client.msg.button.ChatMenuButtonBuilder;
+import javelin.bot.client.msg.handler.MessageHandler;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+
+@Component
+@RequiredArgsConstructor
+public class OrderOptionMenuHandler implements MessageHandler {
+
+    public static final String OPTION = "/option";
+
+    private final ChatMenuButtonBuilder chatMenuButtonBuilder;
+
+    @Override
+    public BotApiMethod<?> handle(ChatCommand cc) {
+        return chatMenuButtonBuilder.build(cc.getChatId(), cc.getKey());
+    }
+
+    @Override
+    public String trigger() {
+        return OPTION;
+    }
+}
