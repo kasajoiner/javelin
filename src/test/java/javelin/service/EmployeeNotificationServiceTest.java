@@ -1,6 +1,6 @@
 package javelin.service;
 
-import javelin.bot.client.msg.template.MessageTemplateContext;
+import javelin.bot.template.MessageTemplateContext;
 import javelin.config.TemplateConfig;
 import javelin.entity.Order;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,15 +1,15 @@
-package javelin.bot.client.msg;
+package javelin.bot.boss.msg;
 
-import javelin.bot.client.msg.handler.common.RegistrationMessageHandler;
+import javelin.bot.cmd.ChatCommandParser;
+import javelin.bot.cmd.CommandTranslator;
+import javelin.bot.boss.msg.handler.IDefaultMessageHandler;
+import javelin.bot.boss.msg.handler.AdminMessageHandler;
+import javelin.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import javelin.bot.cmd.ChatCommandParser;
-import javelin.bot.cmd.CommandTranslator;
-import javelin.bot.client.msg.handler.IDefaultMessageHandler;
-import javelin.bot.client.msg.handler.MessageHandler;
 
 import java.util.List;
 import java.util.Map;
@@ -20,32 +20,37 @@ import java.util.stream.Collectors;
 @Component
 public class MessageHandlerManager {
 
-    private final Map<String, MessageHandler> commonMessageHandlers;
+    private final Map<String, AdminMessageHandler> commonMessageHandlers;
     private final IDefaultMessageHandler defaultMessageHandler;
     private final CommandTranslator txt2Cmd;
+    private final EmployeeService employeeService;
 
     public MessageHandlerManager(
-        @Autowired List<MessageHandler> commonMessageHandlers,
+        @Autowired List<AdminMessageHandler> commonMessageHandlers,
         @Autowired IDefaultMessageHandler defaultMessageHandler,
-        @Autowired CommandTranslator txt2Cmd
+        @Autowired CommandTranslator txt2Cmd,
+        @Autowired EmployeeService employeeService
     ) {
         this.commonMessageHandlers = commonMessageHandlers.stream()
-            .collect(Collectors.toMap(MessageHandler::trigger, Function.identity()));
+            .collect(Collectors.toMap(AdminMessageHandler::trigger, Function.identity()));
         this.defaultMessageHandler = defaultMessageHandler;
         this.txt2Cmd = txt2Cmd;
+        this.employeeService = employeeService;
     }
 
     public BotApiMethod<?> manage(Message message) {
-        if (message.getContact() != null) {
-            message.setText(
-                RegistrationMessageHandler.REG + " " + message.getContact().getPhoneNumber()
-            );
-        }
-        var cc = ChatCommandParser.parse(message.getText(), message.getChatId(), message.getFrom());
-        return getCommonHandler(cc.getTrigger()).handle(cc);
+        var cc = ChatCommandParser.parse(
+            message.getText(),
+            message.getChatId(),
+            message.getFrom()
+        );
+        return employeeService.findBossById(message.getChatId())
+            .map(e -> getCommonHandler(cc.getTrigger()))
+            .orElse(defaultMessageHandler)
+            .handle(cc);
     }
 
-    private MessageHandler getCommonHandler(String text) {
+    private AdminMessageHandler getCommonHandler(String text) {
         var commonMessageHandler = commonMessageHandlers.get(text);
         if (commonMessageHandler != null) {
             return commonMessageHandler;

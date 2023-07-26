@@ -1,4 +1,4 @@
-package javelin.bot.client.msg.template;
+package javelin.bot.template;
 
 import com.vdurmont.emoji.EmojiParser;
 import freemarker.template.Configuration;
@@ -7,7 +7,7 @@ import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import javelin.bot.client.msg.LangUtils;
+import javelin.bot.LangUtils;
 
 import java.io.IOException;
 import java.io.StringWriter;

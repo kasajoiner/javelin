@@ -1,4 +1,4 @@
-package javelin.bot.client.msg.template;
+package javelin.bot.template;
 
 import java.util.Map;
 

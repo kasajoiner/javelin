@@ -1,9 +1,9 @@
-package javelin.bot.client.msg.button;
+package javelin.bot.button;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import javelin.bot.client.msg.template.ButtonNames;
-import javelin.bot.client.msg.template.MessageTemplateContext;
+import javelin.bot.template.ButtonNames;
+import javelin.bot.template.MessageTemplateContext;
 
 import java.util.List;
 

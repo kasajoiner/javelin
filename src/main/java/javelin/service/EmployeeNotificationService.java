@@ -1,7 +1,7 @@
 package javelin.service;
 
-import javelin.bot.client.msg.template.MessageTemplateContext;
-import javelin.bot.client.msg.template.TemplateNames;
+import javelin.bot.template.MessageTemplateContext;
+import javelin.bot.template.TemplateNames;
 import javelin.entity.Employee;
 import javelin.entity.Order;
 import lombok.RequiredArgsConstructor;

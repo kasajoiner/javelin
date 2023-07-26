@@ -5,12 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import javelin.bot.client.cmd.ChatCommand;
+import javelin.bot.cmd.ChatCommand;
 import javelin.bot.client.msg.SendMessageBuilder;
-import javelin.bot.client.msg.button.MenuKeyboardBuilder;
+import javelin.bot.button.MenuKeyboardBuilder;
 import javelin.bot.client.msg.handler.MessageHandler;
-import javelin.bot.client.msg.template.MessageTemplateContext;
-import javelin.bot.client.msg.template.TemplateNames;
+import javelin.bot.template.MessageTemplateContext;
+import javelin.bot.template.TemplateNames;
 
 @Component
 @RequiredArgsConstructor

@@ -1,16 +1,16 @@
-package javelin.bot.client.msg;
+package javelin.bot.boss.msg;
 
+import javelin.bot.cmd.CallbackCommand;
+import javelin.bot.cmd.CommandType;
+import javelin.bot.boss.msg.handler.CallbackMessageHandler;
+import javelin.bot.boss.msg.handler.EntityCallbackMessageHandler;
+import javelin.bot.boss.msg.handler.UtilMessageHandler;
+import javelin.bot.client.EntityType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import javelin.bot.client.EntityType;
-import javelin.bot.cmd.CallbackCommand;
-import javelin.bot.cmd.CommandType;
-import javelin.bot.client.msg.handler.CallbackMessageHandler;
-import javelin.bot.client.msg.handler.EntityCallbackMessageHandler;
-import javelin.bot.client.msg.handler.UtilMessageHandler;
 
 import java.io.Serializable;
 import java.util.HashMap;

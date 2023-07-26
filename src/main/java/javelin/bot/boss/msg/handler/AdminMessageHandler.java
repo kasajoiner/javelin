@@ -1,12 +1,12 @@
-package javelin.bot.client.msg.handler;
+package javelin.bot.boss.msg.handler;
 
+import javelin.bot.cmd.ChatCommand;
 import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import javelin.bot.cmd.ChatCommand;
 
 import java.util.Optional;
 
-public interface MessageHandler {
+public interface AdminMessageHandler {
 
     BotApiMethod<?> handle(ChatCommand cc);
 

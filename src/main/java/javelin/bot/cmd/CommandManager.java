@@ -1,9 +1,9 @@
-package javelin.bot.client.cmd;
+package javelin.bot.cmd;
 
 import org.springframework.stereotype.Component;
 import javelin.bot.client.EntityType;
 
-import static javelin.bot.client.cmd.CommandType.LIST;
+import static javelin.bot.cmd.CommandType.LIST;
 
 @Component
 public class CommandManager {

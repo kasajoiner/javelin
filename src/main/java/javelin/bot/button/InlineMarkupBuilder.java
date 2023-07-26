@@ -1,4 +1,4 @@
-package javelin.bot.client.msg.button;
+package javelin.bot.button;
 
 
 import lombok.AllArgsConstructor;

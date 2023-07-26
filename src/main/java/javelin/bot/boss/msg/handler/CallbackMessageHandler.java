@@ -1,10 +1,10 @@
-package javelin.bot.client.msg.handler;
+package javelin.bot.boss.msg.handler;
 
+import javelin.bot.cmd.CallbackCommand;
+import javelin.bot.cmd.CommandType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import javelin.bot.cmd.CallbackCommand;
-import javelin.bot.cmd.CommandType;
 
 public interface CallbackMessageHandler {
 

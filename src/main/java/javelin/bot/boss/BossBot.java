@@ -1,8 +1,8 @@
-package javelin.bot.client;
+package javelin.bot.boss;
 
-import javelin.bot.client.msg.CallbackMessageHandlerManager;
-import javelin.bot.client.msg.MessageHandlerManager;
-import javelin.bot.client.msg.SendMessageBuilder;
+import javelin.bot.boss.msg.CallbackMessageHandlerManager;
+import javelin.bot.boss.msg.MessageHandlerManager;
+import javelin.bot.boss.msg.SendMessageBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,15 +20,15 @@ import javax.annotation.PostConstruct;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class BotRouter extends TelegramLongPollingBot {
+public class BossBot extends TelegramLongPollingBot {
 
     private final MessageHandlerManager msgManager;
     private final CallbackMessageHandlerManager callbackManager;
 
-    @Value("${bot.name}")
+    @Value("${bot.boss.name}")
     private String name;
 
-    @Value("${bot.token}")
+    @Value("${bot.boss.token}")
     private String token;
 
     @PostConstruct
@@ -44,6 +44,7 @@ public class BotRouter extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
         if (update.hasMessage()) {
             try {
                 var msg = msgManager.manage(update.getMessage());

@@ -1,7 +1,7 @@
 package javelin.bot.client.msg.handler.menu;
 
-import javelin.bot.client.cmd.ChatCommand;
-import javelin.bot.client.msg.button.ChatMenuButtonBuilder;
+import javelin.bot.cmd.ChatCommand;
+import javelin.bot.button.ChatMenuButtonBuilder;
 import javelin.bot.client.msg.handler.MessageHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -1,14 +1,11 @@
-package javelin.bot.client.msg;
+package javelin.bot.boss.msg;
 
-import javelin.bot.LangUtils;
-import javelin.bot.client.msg.handler.common.RegistrationMessageHandler;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import javelin.bot.cmd.CommandTranslator;
-import javelin.bot.client.msg.handler.common.HelpMessageHandler;
-import javelin.bot.client.msg.handler.menu.OrderOptionMenuHandler;
+import javelin.bot.boss.msg.handler.common.HelpMessageHandler;
 import javelin.bot.template.ButtonNames;
 import javelin.bot.template.MessageTemplateContext;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -25,10 +22,7 @@ public class MessageToCommandTranslator implements CommandTranslator {
     @PostConstruct
     public void initContainer() {
         LangUtils.SUPPORTED.forEach(l -> {
-            msg2cmd.put(t.processTemplate(ButtonNames.CONTACT), RegistrationMessageHandler.REG);
             msg2cmd.put(t.processTemplate(ButtonNames.HELP), HelpMessageHandler.HELP);
-            msg2cmd.put(t.processTemplate(ButtonNames.DINE_IN), OrderOptionMenuHandler.OPTION);
-            msg2cmd.put(t.processTemplate(ButtonNames.ORDER), OrderOptionMenuHandler.OPTION);
             }
         );
     }

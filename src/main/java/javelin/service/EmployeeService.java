@@ -42,6 +42,10 @@ public class EmployeeService {
         return repository.findById(id);
     }
 
+    public Optional<Employee> findBossById(Long id) {
+        return repository.findByIdAndRole(id, Employee.Role.BOSS);
+    }
+
     public List<Employee> findByRole(Employee.Role role) {
         return repository.findAllByRole(role);
     }

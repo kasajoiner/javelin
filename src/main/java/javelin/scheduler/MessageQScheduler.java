@@ -1,6 +1,6 @@
 package javelin.scheduler;
 
-import javelin.bot.client.BotRouter;
+import javelin.bot.client.ClientBot;
 import javelin.service.MessageQService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class MessageQScheduler {
 
     private final MessageQService messageQService;
-    private final BotRouter bot;
+    private final ClientBot bot;
 
     @Scheduled(fixedRate = 5, timeUnit = TimeUnit.SECONDS)
     public void sendMsgs() {

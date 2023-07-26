@@ -1,4 +1,4 @@
-package javelin.bot.client.cmd;
+package javelin.bot.cmd;
 
 import lombok.Getter;
 

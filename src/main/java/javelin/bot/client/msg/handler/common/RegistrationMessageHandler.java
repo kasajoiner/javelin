@@ -1,12 +1,12 @@
 package javelin.bot.client.msg.handler.common;
 
-import javelin.bot.client.cmd.ChatCommand;
+import javelin.bot.cmd.ChatCommand;
 import javelin.bot.client.msg.SendMessageBuilder;
-import javelin.bot.client.msg.button.ReplyMarkupBuilder;
+import javelin.bot.button.ReplyMarkupBuilder;
 import javelin.bot.client.msg.handler.MessageHandler;
-import javelin.bot.client.msg.template.ButtonNames;
-import javelin.bot.client.msg.template.MessageTemplateContext;
-import javelin.bot.client.msg.template.TemplateNames;
+import javelin.bot.template.ButtonNames;
+import javelin.bot.template.MessageTemplateContext;
+import javelin.bot.template.TemplateNames;
 import javelin.model.ClientRequest;
 import javelin.service.ClientService;
 import lombok.RequiredArgsConstructor;

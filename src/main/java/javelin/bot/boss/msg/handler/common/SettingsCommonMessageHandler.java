@@ -1,16 +1,16 @@
-package javelin.bot.client.msg.handler.common;
+package javelin.bot.boss.msg.handler.common;
 
-import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import javelin.bot.cmd.CallbackCommand;
 import javelin.bot.cmd.ChatCommand;
 import javelin.bot.cmd.CommandType;
-import javelin.bot.client.msg.SendMessageBuilder;
-import javelin.bot.client.msg.handler.MessageHandler;
+import javelin.bot.boss.msg.SendMessageBuilder;
+import javelin.bot.boss.msg.handler.AdminMessageHandler;
+import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Component
-public class SettingsCommonMessageHandler implements MessageHandler {
+public class SettingsCommonMessageHandler implements AdminMessageHandler {
 
     public static final String SETTINGS = "/settings";
 

@@ -1,7 +1,7 @@
-package javelin.bot.client.msg.button;
+package javelin.bot.button;
 
-import javelin.bot.client.msg.template.ButtonNames;
-import javelin.bot.client.msg.template.MessageTemplateContext;
+import javelin.bot.template.ButtonNames;
+import javelin.bot.template.MessageTemplateContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

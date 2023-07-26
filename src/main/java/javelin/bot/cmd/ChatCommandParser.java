@@ -1,4 +1,4 @@
-package javelin.bot.client.cmd;
+package javelin.bot.cmd;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Component;

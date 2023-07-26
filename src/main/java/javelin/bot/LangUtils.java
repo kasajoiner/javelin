@@ -1,4 +1,4 @@
-package javelin.bot.client.msg;
+package javelin.bot;
 
 
 import java.util.List;

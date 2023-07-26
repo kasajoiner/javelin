@@ -1,6 +1,6 @@
 package javelin.bot.client.msg.handler.common;
 
-import javelin.bot.client.cmd.ChatCommand;
+import javelin.bot.cmd.ChatCommand;
 import javelin.bot.client.msg.SendMessageBuilder;
 import javelin.bot.client.msg.handler.MessageHandler;
 import javelin.entity.Employee;
