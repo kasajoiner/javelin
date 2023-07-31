@@ -1,7 +1,7 @@
 package javelin.bot.boss.msg;
 
-import javelin.bot.cmd.CommandTranslator;
-import javelin.bot.boss.msg.handler.common.HelpMessageHandler;
+import javelin.bot.boss.BossCommandTranslator;
+import javelin.bot.boss.msg.handler.common.BossHelpMessageHandler;
 import javelin.bot.template.ButtonNames;
 import javelin.bot.template.MessageTemplateContext;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class MessageToCommandTranslator implements CommandTranslator {
+public class BossMessageToCommandTranslator implements BossCommandTranslator {
 
     private final Map<String, String> msg2cmd = new HashMap<>();
 
@@ -22,7 +22,7 @@ public class MessageToCommandTranslator implements CommandTranslator {
     @PostConstruct
     public void initContainer() {
         LangUtils.SUPPORTED.forEach(l -> {
-            msg2cmd.put(t.processTemplate(ButtonNames.HELP), HelpMessageHandler.HELP);
+            msg2cmd.put(t.processTemplate(ButtonNames.HELP), BossHelpMessageHandler.HELP);
             }
         );
     }

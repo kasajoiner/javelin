@@ -34,7 +34,7 @@ public class OrderReadyMessageHandler implements MessageHandler {
                 return orderManager.handleStatusChange(orderId, Order.Status.COOKED);
             })
             .filter(Objects::nonNull)
-            .map(o -> employeeNotificationService.notify(o))
+            .map(employeeNotificationService::notify)
             .filter(Objects::nonNull)
             .map(txt -> new SendMessageBuilder(cc.getChatId(), txt).build())
             .orElse(null);

@@ -1,7 +1,7 @@
 package javelin.bot.boss.msg;
 
+import javelin.bot.boss.BossCommandTranslator;
 import javelin.bot.cmd.ChatCommandParser;
-import javelin.bot.cmd.CommandTranslator;
 import javelin.bot.boss.msg.handler.IDefaultMessageHandler;
 import javelin.bot.boss.msg.handler.AdminMessageHandler;
 import javelin.service.EmployeeService;
@@ -18,17 +18,17 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class MessageHandlerManager {
+public class BossMessageHandlerManager {
 
     private final Map<String, AdminMessageHandler> commonMessageHandlers;
     private final IDefaultMessageHandler defaultMessageHandler;
-    private final CommandTranslator txt2Cmd;
+    private final BossCommandTranslator txt2Cmd;
     private final EmployeeService employeeService;
 
-    public MessageHandlerManager(
+    public BossMessageHandlerManager(
         @Autowired List<AdminMessageHandler> commonMessageHandlers,
         @Autowired IDefaultMessageHandler defaultMessageHandler,
-        @Autowired CommandTranslator txt2Cmd,
+        @Autowired BossCommandTranslator txt2Cmd,
         @Autowired EmployeeService employeeService
     ) {
         this.commonMessageHandlers = commonMessageHandlers.stream()

@@ -1,4 +1,4 @@
-package javelin.bot.cmd;
+package javelin.bot.client;
 
 public interface CommandTranslator {
     String translate(String text);

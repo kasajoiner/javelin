@@ -13,7 +13,7 @@ public class CheckOrderSchedule {
 
     private final OrderManager manager;
 
-    @Scheduled(fixedRate = 30, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(fixedRate = 15, timeUnit = TimeUnit.SECONDS)
     public void schedule() {
         manager.checkOrders();
     }

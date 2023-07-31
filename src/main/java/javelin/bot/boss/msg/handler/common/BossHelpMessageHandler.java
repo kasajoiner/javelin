@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Component
 @RequiredArgsConstructor
-public class HelpMessageHandler implements AdminMessageHandler {
+public class BossHelpMessageHandler implements AdminMessageHandler {
 
     public static final String HELP = "/help";
 

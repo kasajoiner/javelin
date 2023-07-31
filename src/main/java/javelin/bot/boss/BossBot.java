@@ -1,7 +1,7 @@
 package javelin.bot.boss;
 
-import javelin.bot.boss.msg.CallbackMessageHandlerManager;
-import javelin.bot.boss.msg.MessageHandlerManager;
+import javelin.bot.boss.msg.BossCallbackMessageHandlerManager;
+import javelin.bot.boss.msg.BossMessageHandlerManager;
 import javelin.bot.boss.msg.SendMessageBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +22,8 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class BossBot extends TelegramLongPollingBot {
 
-    private final MessageHandlerManager msgManager;
-    private final CallbackMessageHandlerManager callbackManager;
+    private final BossMessageHandlerManager msgManager;
+    private final BossCallbackMessageHandlerManager callbackManager;
 
     @Value("${bot.boss.name}")
     private String name;

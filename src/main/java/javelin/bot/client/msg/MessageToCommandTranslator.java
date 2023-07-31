@@ -4,7 +4,7 @@ import javelin.bot.LangUtils;
 import javelin.bot.client.msg.handler.common.RegistrationMessageHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import javelin.bot.cmd.CommandTranslator;
+import javelin.bot.client.CommandTranslator;
 import javelin.bot.client.msg.handler.common.HelpMessageHandler;
 import javelin.bot.client.msg.handler.menu.OrderOptionMenuHandler;
 import javelin.bot.template.ButtonNames;

@@ -44,7 +44,7 @@ public class ChatMenuButtonBuilder {
         return null;
     }
 
-    private MenuButtonWebApp makeIt( String txt, String url) {
+    private MenuButtonWebApp makeIt(String txt, String url) {
         var webAppInfo = WebAppInfo.builder().url(url).build();
         return MenuButtonWebApp.builder()
             .text(txt)

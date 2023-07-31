@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class CallbackMessageHandlerManager {
+public class BossCallbackMessageHandlerManager {
 
     private final Map<CommandType, Function<EntityType, CallbackMessageHandler>> functionContainer;
     private final Map<CommandType, UtilMessageHandler> utilHandlers;
 
-    public CallbackMessageHandlerManager(
+    public BossCallbackMessageHandlerManager(
         List<EntityCallbackMessageHandler> entityMessageHandlers,
         List<UtilMessageHandler> utilMessageHandler
     ) {

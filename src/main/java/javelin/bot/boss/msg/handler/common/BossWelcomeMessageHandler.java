@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class WelcomeMessageHandler implements AdminMessageHandler {
+public class BossWelcomeMessageHandler implements AdminMessageHandler {
 
     private final BossMessageService messageService;
 

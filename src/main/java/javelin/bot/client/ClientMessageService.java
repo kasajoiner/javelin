@@ -1,23 +1,25 @@
-package javelin.bot.boss.msg;
+package javelin.bot.client;
 
-import javelin.dto.BossMessageTemplateRequest;
+import javelin.bot.client.msg.ClientMsgName;
+import javelin.dto.ClientMessageTemplateRequest;
 import javelin.entity.MessageTemplate;
 import javelin.service.MessageTemplateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
-public class BossMessageService {
+public class ClientMessageService {
 
     private final MessageTemplateService messageService;
 
-    public MessageTemplate findByName(BossMsgName name) {
-        return messageService.findById(name.name())
-            .orElseThrow();
+    public Optional<MessageTemplate> findByName(ClientMsgName name) {
+        return messageService.findById(name.name());
     }
 
-    public MessageTemplate save(BossMessageTemplateRequest r) {
+    public MessageTemplate save(ClientMessageTemplateRequest r) {
         var msg = new MessageTemplate();
         msg.setId(r.name().name());
         msg.setTxt(r.txt());

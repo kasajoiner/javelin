@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import javelin.bot.cmd.ChatCommandParser;
-import javelin.bot.cmd.CommandTranslator;
+import javelin.bot.client.CommandTranslator;
 import javelin.bot.client.msg.handler.IDefaultMessageHandler;
 import javelin.bot.client.msg.handler.MessageHandler;
 
