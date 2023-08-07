@@ -2,6 +2,7 @@ package javelin.bot.boss;
 
 import javelin.bot.boss.msg.BossCallbackMessageHandlerManager;
 import javelin.bot.boss.msg.BossMessageHandlerManager;
+import javelin.bot.boss.msg.MediaMessageHandlerManager;
 import javelin.bot.boss.msg.SendMessageBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,18 +11,22 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import javax.annotation.PostConstruct;
+import java.util.Optional;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class BossBot extends TelegramLongPollingBot {
 
+    private final MediaMessageHandlerManager mediaManager;
     private final BossMessageHandlerManager msgManager;
     private final BossCallbackMessageHandlerManager callbackManager;
 
@@ -47,9 +52,16 @@ public class BossBot extends TelegramLongPollingBot {
 
         if (update.hasMessage()) {
             try {
-                var msg = msgManager.manage(update.getMessage());
-                if (msg != null) {
-                    execute(msg);
+                var media = Optional.ofNullable(mediaManager.manage(update.getMessage()))
+                    .orElse(null);
+                if (media != null) {
+                    if (media instanceof SendPhoto) {
+                        execute((SendPhoto) media);
+                    } else if (media instanceof SendVideo) {
+                        execute((SendVideo) media);
+                    }
+                } else {
+                    execute(msgManager.manage(update.getMessage()));
                 }
             } catch (TelegramApiException e) {
                 log.error(e.getMessage(), e);

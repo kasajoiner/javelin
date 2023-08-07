@@ -5,12 +5,15 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @Component
 public class ChatCommandParser {
 
     public static ChatCommand parse(String text, long chatId, User from) {
-        Pair<String, String> keys = parseKeys(text);
+        var keys = Optional.ofNullable(text)
+            .map(ChatCommandParser::parseKeys)
+            .orElseGet(() -> Pair.of("media", "m"));
         return new ChatCommand(keys.getLeft(), keys.getRight(), chatId, from);
     }
 
