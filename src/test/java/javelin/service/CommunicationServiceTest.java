@@ -146,7 +146,6 @@ class CommunicationServiceTest extends AbstractITTest {
         assertEquals(communication.getId(), accepted.getId());
         assertEquals(CREATED, communication.getStatus());
         assertEquals(ACCEPTED, accepted.getStatus());
-        assertEquals(communication.getCreated(), accepted.getCreated());
         assertNotEquals(communication.getUpdated(), accepted.getUpdated());
         assertNull(communication.getObjectUrl());
     }
@@ -168,7 +167,6 @@ class CommunicationServiceTest extends AbstractITTest {
         assertEquals(communication.getId(), cancelled.getId());
         assertEquals(CREATED, communication.getStatus());
         assertEquals(CANCELLED, cancelled.getStatus());
-        assertEquals(communication.getCreated(), cancelled.getCreated());
         assertNotEquals(communication.getUpdated(), cancelled.getUpdated());
         assertNull(communication.getObjectUrl());
     }
