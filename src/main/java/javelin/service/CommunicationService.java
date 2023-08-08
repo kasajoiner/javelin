@@ -32,25 +32,29 @@ public class CommunicationService {
 
     public Communication accept(Long id) {
         return repository.findById(id)
-            .filter(c -> c.getStatus() == CREATED || c.getStatus() == Communication.Status.CANCELLED )
             .map(c -> {
-                c.setStatus(ACCEPTED);
-                var accepted = repository.save(c);
-                qService.pushCommunication(accepted);
-                log.info("communication accepted {}", accepted);
-                return accepted;
+                if (c.getStatus() == CREATED || c.getStatus() == CANCELLED) {
+                    c.setStatus(ACCEPTED);
+                    var accepted = repository.save(c);
+                    qService.pushCommunication(accepted);
+                    log.info("communication accepted {}", accepted);
+                    return accepted;
+                }
+                return c;
             })
             .orElseThrow();
     }
 
     public Communication cancel(Long id) {
         return repository.findById(id)
-            .filter(c -> c.getStatus() == CREATED)
             .map(c -> {
-                c.setStatus(CANCELLED);
-                var cancelled = repository.save(c);
-                log.info("communication cancelled {}", cancelled);
-                return cancelled;
+                if (c.getStatus() == CREATED) {
+                    c.setStatus(CANCELLED);
+                    var cancelled = repository.save(c);
+                    log.info("communication cancelled {}", cancelled);
+                    return cancelled;
+                }
+                return c;
             })
             .orElseThrow();
     }

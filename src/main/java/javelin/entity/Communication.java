@@ -24,6 +24,7 @@ public class Communication extends DatedEntity {
     private String objectId;
     private String objectUrl;
     private Long sender;
+    @Enumerated(EnumType.STRING)
     private Receiver receiver;
 
     public enum Type {
