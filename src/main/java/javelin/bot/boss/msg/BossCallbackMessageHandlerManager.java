@@ -9,6 +9,7 @@ import javelin.bot.client.EntityType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
@@ -42,7 +43,7 @@ public class BossCallbackMessageHandlerManager {
             .collect(Collectors.toMap(UtilMessageHandler::commandType, Function.identity()));
     }
 
-    public BotApiMethod<Serializable> manageCallback(Message message, String data) {
+    public BotApiMethod<?> manageCallback(Message message, String data) {
         var txt = new StringBuilder();
         CallbackMessageHandler.HandleResult handleResult = null;
         for (String cc : data.split(";")) {
@@ -54,9 +55,8 @@ public class BossCallbackMessageHandlerManager {
         if (handleResult == null) {
             return null;
         }
-        var msg = EditMessageText.builder()
+        var msg = SendMessage.builder()
             .chatId(String.valueOf(message.getChatId()))
-            .messageId(message.getMessageId())
             .text(txt.toString())
             .disableWebPagePreview(!handleResult.isPreviewPage())
             .replyMarkup(handleResult.getInline())

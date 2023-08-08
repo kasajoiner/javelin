@@ -4,13 +4,14 @@ import javelin.bot.boss.msg.BossCallbackMessageHandlerManager;
 import javelin.bot.boss.msg.BossMessageHandlerManager;
 import javelin.bot.boss.msg.MediaMessageHandlerManager;
 import javelin.bot.boss.msg.SendMessageBuilder;
+import javelin.service.CommunicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -50,46 +51,33 @@ public class BossBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
 
-        if (update.hasMessage()) {
-            try {
+        try {
+            if (update.hasMessage()) {
                 var media = Optional.ofNullable(mediaManager.manage(update.getMessage()))
                     .orElse(null);
                 if (media != null) {
-                    if (media instanceof SendPhoto) {
-                        execute((SendPhoto) media);
-                    } else if (media instanceof SendVideo) {
-                        execute((SendVideo) media);
+                    if (media instanceof SendPhoto photo) {
+                        execute(photo);
+                    } else if (media instanceof SendVideo video) {
+                        execute(video);
                     }
+                    updateMediaUrl(media.getFile().getAttachName());
                 } else {
                     execute(msgManager.manage(update.getMessage()));
                 }
-            } catch (TelegramApiException e) {
-                log.error(e.getMessage(), e);
-                //TODO: send to admin
-                SendMessage m = SendMessage.builder()
-                    .chatId(String.valueOf(update.getMessage().getChatId()))
-                    .text(e.getMessage())
-                    .build();
-                try {
-                    execute(m);
-                } catch (TelegramApiException ex) {
-                    log.error(ex.getMessage(), ex);
+            } else if (update.hasCallbackQuery()) {
+                var callbackQuery = update.getCallbackQuery();
+                var m = callbackManager.manageCallback(
+                    callbackQuery.getMessage(),
+                    callbackQuery.getData()
+                );
+                if (m == null) {
+                    return;
                 }
-            }
-        } else if (update.hasCallbackQuery()){
-            var callbackQuery = update.getCallbackQuery();
-            var m = callbackManager.manageCallback(
-                callbackQuery.getMessage(),
-                callbackQuery.getData()
-            );
-            if (m == null) {
-                return;
-            }
-            try {
                 execute(m);
-            } catch (TelegramApiException e) {
-                log.error(e.getMessage(), e);
             }
+        } catch (TelegramApiException e) {
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -117,5 +105,13 @@ public class BossBot extends TelegramLongPollingBot {
     @Override
     public String getBotToken() {
         return token;
+    }
+
+    private void updateMediaUrl(String objectId) throws TelegramApiException {
+        var getFileMethod = new GetFile();
+        getFileMethod.setFileId(objectId);
+        var file = execute(getFileMethod);
+        var fileUrl = file.getFileUrl(token);
+        mediaManager.updateMediaUrl(objectId, fileUrl);
     }
 }

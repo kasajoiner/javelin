@@ -1,6 +1,7 @@
 package javelin.service;
 
 import javelin.entity.Client;
+import javelin.entity.Receiver;
 import javelin.model.ClientRequest;
 import javelin.repo.ClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,12 @@ public class ClientService {
 
     public List<Client> getAll() {
         return rep.findAll();
+    }
+
+    public List<Client> findByReceiver(Receiver receiver) {
+        return switch (receiver) {
+            case ALL -> rep.findAllByStatus(Client.Status.ENABLED);
+        };
     }
 
     public Optional<Client> findById(Long id) {

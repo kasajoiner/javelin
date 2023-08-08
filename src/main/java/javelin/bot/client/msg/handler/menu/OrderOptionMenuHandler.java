@@ -3,7 +3,7 @@ package javelin.bot.client.msg.handler.menu;
 import javelin.bot.client.ClientMessageService;
 import javelin.bot.client.msg.ClientMsgName;
 import javelin.bot.cmd.ChatCommand;
-import javelin.bot.button.ChatMenuButtonBuilder;
+import javelin.bot.client.ChatMenuButtonBuilder;
 import javelin.bot.client.msg.handler.MessageHandler;
 import javelin.bot.template.ButtonNames;
 import javelin.bot.template.MessageTemplateContext;

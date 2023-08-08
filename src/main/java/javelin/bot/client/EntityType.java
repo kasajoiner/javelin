@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum EntityType {
-    RESOURCE("r");
+    COMMUNICATION("c");
     private static final Map<String, EntityType> VALUES = Arrays.stream(values())
         .collect(Collectors.toMap(EntityType::getKey, Function.identity()));
 

@@ -1,4 +1,4 @@
-package javelin.bot.button;
+package javelin.bot.client;
 
 import javelin.bot.template.ButtonNames;
 import javelin.bot.template.MessageTemplateContext;

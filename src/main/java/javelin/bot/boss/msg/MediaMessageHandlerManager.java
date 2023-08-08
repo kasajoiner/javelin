@@ -1,9 +1,10 @@
 package javelin.bot.boss.msg;
 
 import javelin.bot.boss.msg.handler.MediaMessageHandler;
+import javelin.service.CommunicationService;
 import javelin.service.EmployeeService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMediaBotMethod;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -13,18 +14,12 @@ import java.util.Objects;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class MediaMessageHandlerManager {
 
     private final List<MediaMessageHandler> mediaMessageHandlers;
     private final EmployeeService employeeService;
-
-    public MediaMessageHandlerManager(
-        @Autowired List<MediaMessageHandler> mediaMessageHandlers,
-        @Autowired EmployeeService employeeService
-    ) {
-        this.employeeService = employeeService;
-        this.mediaMessageHandlers = mediaMessageHandlers;
-    }
+    private final CommunicationService communicationService;
 
     public SendMediaBotMethod<?> manage(Message message) {
         return employeeService.findBossById(message.getChatId())
@@ -39,6 +34,10 @@ public class MediaMessageHandlerManager {
             .filter(h -> h.isApplicable(msg))
             .findFirst()
             .orElse(null);
+    }
+
+    public void updateMediaUrl(String objectId, String url) {
+        communicationService.updateUrl(objectId, url);
     }
 
 }

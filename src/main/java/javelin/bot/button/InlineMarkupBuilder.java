@@ -34,8 +34,13 @@ public class InlineMarkupBuilder {
         return this;
     }
 
-    public InlineButton button(String text, String... commands) {
+    public InlineButton makeButton(String text, String... commands) {
         return new InlineButton(text, Arrays.asList(commands));
+    }
+
+    public InlineMarkupBuilder button(String text, String... commands) {
+        this.addButtons(List.of(new InlineButton(text, Arrays.asList(commands))));
+        return this;
     }
 
     public InlineKeyboardMarkup build() {

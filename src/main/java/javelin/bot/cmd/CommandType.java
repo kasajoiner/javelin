@@ -10,9 +10,10 @@ import java.util.stream.Collectors;
 
 @Getter
 public enum CommandType {
+    MAKE("m"),
     LIST("l"),
-    PICK("p"),
-    REMOVE("r"),
+    ACCEPT("ac"),
+    CANCEL("cl"),
     STATUS_USER("sr"),
     SETTINGS("st");
 

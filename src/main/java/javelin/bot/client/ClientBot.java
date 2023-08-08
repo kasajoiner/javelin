@@ -10,12 +10,16 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.send.SendVideo;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
 
 @Slf4j
 @Component
@@ -85,6 +89,36 @@ public class ClientBot extends TelegramLongPollingBot {
             execute(new SendMessageBuilder(chatId, text).build());
         } catch (TelegramApiException e) {
             log.error("bot:message:failed:{}:{}", chatId, text);
+        }
+    }
+
+    public void sendPhoto(Long chatId, File file, String caption) {
+        try  {
+            var sendPhotoRequest = new SendPhoto();
+            sendPhotoRequest.setChatId(chatId);
+            sendPhotoRequest.setPhoto(new InputFile(file));
+            if (caption != null) {
+                sendPhotoRequest.setCaption(caption);
+            }
+            execute(sendPhotoRequest);
+        } catch (TelegramApiException e) {
+            log.error("bot:photo:failed:{}:{}", chatId, file.getName(), e);
+        }
+    }
+
+    public void sendVideo(Long chatId, File file, String caption) {
+        try {
+            var sendVideo = new SendVideo();
+            var inputFile = new InputFile(file);
+            sendVideo.setVideo(inputFile);
+            sendVideo.setChatId(chatId);
+
+            if (caption != null) {
+                sendVideo.setCaption(caption);
+            }
+            execute(sendVideo);
+        } catch (TelegramApiException e) {
+            log.error("bot:video:failed:{}:{}", chatId, file.getName(), e);
         }
     }
 

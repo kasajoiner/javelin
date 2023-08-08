@@ -21,7 +21,6 @@ public class BossWelcomeMessageHandler implements AdminMessageHandler {
     @Override
     public BotApiMethod<Message> handle(ChatCommand cc) {
         var msg = messageService.findByName(BossMsgName.ADMIN_WELCOME);
-
         return new SendMessageBuilder(cc.getChatId(), msg.getTxt())
             .build();
     }
