@@ -16,6 +16,7 @@ import java.util.Optional;
 public class ClientService {
 
     private final ClientRepository rep;
+    private final CommunicationService communicationService;
 
     public List<Client> getAll() {
         return rep.findAll();
@@ -24,6 +25,7 @@ public class ClientService {
     public List<Client> findByReceiver(Receiver receiver) {
         return switch (receiver) {
             case ALL -> rep.findAllByStatus(Client.Status.ENABLED);
+            default -> rep.findAllByStatus(Client.Status.ENABLED);
         };
     }
 
@@ -40,7 +42,10 @@ public class ClientService {
                 return client;
             });
         c.setPhone(r.phone());
-        return rep.save(c);
+        c.setTag(r.tag());
+        var saved = rep.save(c);
+        communicationService.pushNewClient(saved);
+        return saved;
     }
 
     @Transactional

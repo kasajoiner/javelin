@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +45,12 @@ public class EmployeeService {
 
     public Optional<Employee> findBossById(Long id) {
         return repository.findByIdAndRole(id, Employee.Role.BOSS);
+    }
+
+    public List<Employee> findAllAdmins() {
+        var bosses = repository.findAllByRole(Employee.Role.BOSS);
+        var admins = repository.findAllByRole(Employee.Role.ADMIN);
+        return Stream.concat(bosses.stream(), admins.stream()).toList();
     }
 
     public List<Employee> findByRole(Employee.Role role) {

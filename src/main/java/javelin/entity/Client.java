@@ -15,6 +15,7 @@ public class Client {
     @EqualsAndHashCode.Include
     private Long id;
     private String phone;
+    private String tag;
     @Enumerated(EnumType.STRING)
     private Status status = Status.ENABLED;
 

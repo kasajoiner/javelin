@@ -1,0 +1,1 @@
+ALTER TABLE public.client add column tag varchar(100) null unique;

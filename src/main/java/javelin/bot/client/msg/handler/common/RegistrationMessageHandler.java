@@ -33,7 +33,7 @@ public class RegistrationMessageHandler implements MessageHandler {
 
     @Override
     public BotApiMethod<Message> handle(ChatCommand cc) {
-        var client = clientService.save(new ClientRequest(cc.getChatId(), cc.getKey()));
+        var client = clientService.save(new ClientRequest(cc.getChatId(), cc.getKey(), cc.getFrom().getUserName()));
         var text = templateContext.processEmojiTemplate(TemplateNames.REGISTER);
         var dineInBtn = templateContext.processTemplate(ButtonNames.DINE_IN);
         var orderBtn = templateContext.processTemplate(ButtonNames.ORDER);

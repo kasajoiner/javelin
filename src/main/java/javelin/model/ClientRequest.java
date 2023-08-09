@@ -1,4 +1,4 @@
 package javelin.model;
 
-public record ClientRequest(Long id, String phone) {
+public record ClientRequest(Long id, String phone, String tag) {
 }

@@ -1,11 +1,16 @@
 package javelin.service;
 
+import javelin.bot.template.MessageTemplateContext;
 import javelin.dto.NewCommunicationRequest;
+import javelin.entity.Client;
 import javelin.entity.Communication;
+import javelin.entity.Receiver;
 import javelin.repo.CommunicationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 import static javelin.entity.Communication.Status.ACCEPTED;
 import static javelin.entity.Communication.Status.CANCELLED;
@@ -15,8 +20,12 @@ import static javelin.entity.Communication.Status.CREATED;
 @RequiredArgsConstructor
 @Slf4j
 public class CommunicationService {
+    private static final String NEW_CLIENT = "employee/reg";
+
     private final CommunicationRepository repository;
     private final MessageQService qService;
+    private final EmployeeMessageQService employeeMessageQService;
+    private final MessageTemplateContext templateContext;
 
     public Communication createNew(NewCommunicationRequest r) {
         log.info("new communication {}", r);
@@ -28,6 +37,26 @@ public class CommunicationService {
         c.setReceiver(r.receiver());
         c.setStatus(CREATED);
         return repository.save(c);
+    }
+
+    public Communication pushNewClient(Client client) {
+
+        var txt = templateContext.processTemplate(
+            NEW_CLIENT,
+            Map.of(
+                "phone", client.getPhone(),
+                "tag", client.getTag()
+            )
+        );
+        var c = new Communication();
+        c.setTxt(txt);
+        c.setType(Communication.Type.TEXT);
+        c.setSender(client.getId());
+        c.setReceiver(Receiver.ADMIN);
+        c.setStatus(CREATED);
+        var newClient = repository.save(c);
+        employeeMessageQService.pushCommunication(newClient);
+        return newClient;
     }
 
     public Communication accept(Long id) {
