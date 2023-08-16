@@ -1,14 +1,10 @@
 package javelin.mgr;
 
 import javelin.bot.boss.BossBot;
-import javelin.entity.Employee;
 import javelin.service.EmployeeMessageQService;
 import javelin.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -19,6 +15,9 @@ public class EmployeeMsgManager {
     private final EmployeeService employeeService;
 
     public void sendCommunications() {
+        for (var msg = qService.poll(); msg != null; msg = qService.poll()) {
+            bot.sendNew(msg.getKey(), msg.getValue());
+        }
         for (var msg = qService.pollCommunication(); msg != null; msg = qService.pollCommunication()) {
             var allAdmins = employeeService.findAllAdmins();
             for (var admin : allAdmins) {

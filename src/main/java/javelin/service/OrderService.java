@@ -18,7 +18,7 @@ import java.util.Optional;
 public class OrderService {
 
     private final ClientService clientService;
-    private final ClientNotificationService notificationService;
+    private final NotificationService notificationService;
     private final OrderRepository orderRepository;
     private final OrderClient orderClient;
 
@@ -53,7 +53,7 @@ public class OrderService {
         order.setUpdated(co.getUpdated());
         order.setAddress(co.getAddress() == null ? "-" : co.getAddress());
         order.setService(co.getService());
-        order.setStatus(co.getStatus());
+        order.setStatus(c.getId() < 0 ? Order.Status.OUT : co.getStatus());
         return orderRepository.save(order);
     }
 

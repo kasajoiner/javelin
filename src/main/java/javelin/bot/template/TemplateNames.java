@@ -16,13 +16,15 @@ public class TemplateNames {
 
     private static final String NOTIFICATION = "notification/";
     private static final String ORDER = "order/";
-    public static final String ORDER_ADMIN_ACCEPTED = ORDER + "admin/cooked";
-    public static final String ORDER_ADMIN_COOKED = ORDER + "admin/done";
+    public static final String ORDER_ADMIN_ACCEPTED = ORDER + "admin/accepted";
+    public static final String ORDER_ADMIN_COOKED = ORDER + "admin/cooked";
+    public static final String ORDER_ADMIN_NEW = ORDER + "admin/new";
+    public static final String ORDER_ADMIN_CANCELLED = ORDER + "admin/cancelled";
+    public static final String ORDER_ADMIN_DONE = ORDER + "admin/done";
     public static final String ORDER_NEW = ORDER + "new";
     public static final String ORDER_ACCEPT = ORDER + "accepted";
     public static final String ORDER_COOKING = ORDER + "cooking";
     public static final String ORDER_COOKED = ORDER + "cooked";
     public static final String ORDER_DELIVERING = ORDER + "delivering";
-    public static final String ORDER_DONE = ORDER + "done";
 
 }

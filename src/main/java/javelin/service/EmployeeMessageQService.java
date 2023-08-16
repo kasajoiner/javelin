@@ -10,7 +10,18 @@ import java.util.Queue;
 
 @Service
 public class EmployeeMessageQService {
+    private Queue<Pair<Long, String>> msgs = new ArrayDeque<>();
     private LinkedList<Communication> communications = new LinkedList<>();
+
+    public void push(Long id, String txt) {
+        if (id > 0) {
+            msgs.add(Pair.of(id, txt));
+        }
+    }
+
+    public Pair<Long, String> poll() {
+        return msgs.poll();
+    }
 
     public void pushCommunication(Communication communication) {
         communications.push(communication);

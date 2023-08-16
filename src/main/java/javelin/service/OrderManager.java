@@ -22,7 +22,7 @@ public class OrderManager {
     private final OrderService orderService;
     private final ClientService clientService;
     private final TimeService timeService;
-    private final ClientNotificationService notificationService;
+    private final NotificationService notificationService;
 
     public void checkOrders() {
 
