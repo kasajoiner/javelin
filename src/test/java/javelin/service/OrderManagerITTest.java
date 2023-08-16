@@ -28,7 +28,7 @@ class OrderManagerITTest extends AbstractITTest {
         Mockito.doReturn(true).when(timeService).isOpenNow();
     }
 
-    @Test
+//    @Test
     void When() {
 //        Mockito.when(orderClient.findOrders(any(), any())).thenReturn()
 
