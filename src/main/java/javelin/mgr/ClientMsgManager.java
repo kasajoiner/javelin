@@ -22,21 +22,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClientMsgManager {
 
-    private final MessageQService messageQService;
+    private final MessageQService qService;
     private final ClientService clientService;
     private final ClientBot bot;
     private final TaskScheduler taskScheduler;
 
     public void sendCommunications() {
-        for (var msg = messageQService.poll(); msg != null; msg = messageQService.poll()) {
+        for (var msg = qService.poll(); msg != null; msg = qService.poll()) {
             bot.sendNew(msg.getKey(), msg.getValue());
         }
         sendClientCommunications();
     }
 
     private void sendClientCommunications() {
-        for (var msg = messageQService.pollCommunication(); msg != null; msg = messageQService.pollCommunication()) {
-            var receivers = clientService.findByReceiver(msg.getReceiver())
+        for (var msg = qService.pollCommunication(); msg != null; msg = qService.pollCommunication()) {
+            var receivers = clientService.findAllByCommunication(msg)
                 .stream()
                 .filter(c -> c.getId() > 0)
                 .toList();

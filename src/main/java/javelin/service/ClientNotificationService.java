@@ -4,6 +4,7 @@ import javelin.bot.template.MessageTemplateContext;
 import javelin.bot.template.TemplateNames;
 import javelin.entity.Client;
 import javelin.entity.Order;
+import javelin.processor.OrderStatusProcessor;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ public class ClientNotificationService {
     private final MessageQService qService;
     private final MessageTemplateContext templateContext;
     private final EmployeeNotificationService employeeNotificationService;
+    private final OrderStatusProcessor processor;
 
     public String notify(Client c, Order o) {
         return switch (o.getStatus()) {
@@ -24,6 +26,7 @@ public class ClientNotificationService {
             case COOKING -> notifyCooking(c, o);
             case COOKED -> notifyCooked(c, o);
             case DELIVERING -> notifyDelivering(c, o);
+            case DONE -> processor.process(c, o);
             default -> null;
         };
     }

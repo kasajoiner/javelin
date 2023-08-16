@@ -1,5 +1,5 @@
 package javelin.entity;
 
 public enum Receiver {
-    ALL, ADMIN, BOSS
+    ALL, CLIENT, ADMIN, BOSS
 }

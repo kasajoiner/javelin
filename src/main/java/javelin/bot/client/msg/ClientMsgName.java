@@ -6,6 +6,7 @@ public enum ClientMsgName {
     COMMUNICATION,
     REGISTRATION_WARN,
     DELIVERY_OPTION,
-    DINEIN_OPTION
+    DINEIN_OPTION,
+    ORDER_DONE
 
 }

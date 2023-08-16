@@ -4,6 +4,7 @@ import javelin.bot.template.MessageTemplateContext;
 import javelin.dto.NewCommunicationRequest;
 import javelin.entity.Client;
 import javelin.entity.Communication;
+import javelin.entity.Order;
 import javelin.entity.Receiver;
 import javelin.repo.CommunicationRepository;
 import lombok.RequiredArgsConstructor;
@@ -57,6 +58,19 @@ public class CommunicationService {
         var newClient = repository.save(c);
         employeeMessageQService.pushCommunication(newClient);
         return newClient;
+    }
+
+    public Communication pushNewClientPhoto(Order order, String url) {
+
+        var c = new Communication();
+        c.setObjectUrl(url);
+        c.setType(Communication.Type.PHOTO);
+        c.setSender(order.getClientId());
+        c.setReceiver(Receiver.CLIENT);
+        c.setStatus(CREATED);
+        var clientPhoto = repository.save(c);
+        qService.pushCommunication(clientPhoto);
+        return clientPhoto;
     }
 
     public Communication accept(Long id) {

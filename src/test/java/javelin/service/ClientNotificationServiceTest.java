@@ -4,6 +4,7 @@ import javelin.bot.template.MessageTemplateContext;
 import javelin.config.TemplateConfig;
 import javelin.entity.Client;
 import javelin.entity.Order;
+import javelin.processor.OrderStatusProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -25,11 +26,24 @@ class ClientNotificationServiceTest {
     public void initTargetAndMocks() {
         var templateContext = new MessageTemplateContext(new TemplateConfig().templateConfiguration());
         var employeeNotificationService = Mockito.mock(EmployeeNotificationService.class);
+        var statusProcessor = new OrderStatusProcessor() {
+
+            @Override
+            public boolean isApplicable(Order o) {
+                return true;
+            }
+
+            @Override
+            public String process(Client c, Order o) {
+                return Order.Status.DONE.toString();
+            }
+        };
 
         this.target = new ClientNotificationService(
             new MessageQService(),
             templateContext,
-            employeeNotificationService
+            employeeNotificationService,
+            statusProcessor
         );
     }
 
@@ -45,7 +59,7 @@ class ClientNotificationServiceTest {
             Arguments.of(Order.Status.COOKED, "Замовлення готово!"),
             Arguments.of(Order.Status.DELIVERING, "Кур’єр вже везе твоє замовлення! Очікуй доставочку і смачного тобі, друг!"),
             Arguments.of(Order.Status.CANCELLED, null),
-            Arguments.of(Order.Status.DONE, null),
+            Arguments.of(Order.Status.DONE, "DONE"),
             Arguments.of(Order.Status.OUT, null)
         );
     }

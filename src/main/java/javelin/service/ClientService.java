@@ -1,6 +1,7 @@
 package javelin.service;
 
 import javelin.entity.Client;
+import javelin.entity.Communication;
 import javelin.entity.Receiver;
 import javelin.model.ClientRequest;
 import javelin.repo.ClientRepository;
@@ -22,9 +23,10 @@ public class ClientService {
         return rep.findAll();
     }
 
-    public List<Client> findByReceiver(Receiver receiver) {
-        return switch (receiver) {
+    public List<Client> findAllByCommunication(Communication c) {
+        return switch (c.getReceiver()) {
             case ALL -> rep.findAllByStatus(Client.Status.ENABLED);
+            case CLIENT -> rep.findAllById(c.getSender());
             default -> rep.findAllByStatus(Client.Status.ENABLED);
         };
     }

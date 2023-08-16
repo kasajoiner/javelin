@@ -14,7 +14,9 @@ public class MessageQService {
     private LinkedList<Communication> communications = new LinkedList<>();
 
     public void push(Long id, String txt) {
-        msgs.add(Pair.of(id, txt));
+        if (id > 0) {
+            msgs.add(Pair.of(id, txt));
+        }
     }
 
     public Pair<Long, String> poll() {
